@@ -90,12 +90,12 @@ class Attax:
         return liminfx, liminfy, limsupx, limsupy
 
     def change_neighbours_pieces(self,x,y):
-            lx,ly,sx,sy= self.neighbours(x,y)
-            for i in range(lx,sx):
-                for j in range (ly,sy):
-                    if self.tabuleiro[i][j]!=0:
-                        self.tabuleiro[i][j]=self.value()
-        #nao acabada
+        lx,ly,sx,sy= self.neighbours(x,y)
+        for i in range(lx,sx):
+            for j in range (ly,sy):
+                if self.tabuleiro[i][j]!=0:
+                    self.tabuleiro[i][j]=self.value()
+
 
     def isjump(self,x,y,movex,movey):
         if self.distancia(x,y,movex,movey)==2:
