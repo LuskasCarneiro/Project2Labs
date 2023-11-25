@@ -84,10 +84,11 @@ class Attax:
             liminfy=0
         if limsupx>(self.tabuleiro_size-1):
             limsupx=self.tabuleiro_size-1
-        if limsupy<(self.tabuleiro_size-1):
+        if limsupy>(self.tabuleiro_size-1):
             limsupy=self.tabuleiro_size-1
-
-        return liminfx, liminfy, limsupx, limsupy
+        #problema com a formulacao da matriz acho eu
+        print(liminfx, liminfy, limsupx+1, limsupy+1)
+        return liminfx, liminfy, limsupx+1, limsupy+1
 
     def change_neighbours_pieces(self,x,y):
         lx,ly,sx,sy= self.neighbours(x,y)
@@ -118,6 +119,12 @@ class Attax:
         if len(x)>0:
             return False
         return True
+    
+    def ocuppied_pos(self):
+        return np.where(self.tabuleiro!=0)
+    
+    def return_tabuleiro(self):
+        return self.tabuleiro
 
 
 

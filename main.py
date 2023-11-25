@@ -1,11 +1,18 @@
 #main
 from Attax import *
+import values
+from interface import *
+from tkinter import *
 
-jogo=Attax(5)
+jogo=Attax(values.grid_size)
+inter=interfaceAtaxx(jogo)
 
 while True:
-    x, y = map(int, input("Peça inicial x,y ").split())
-    movex, movey = map(int, input("Local Final ").split())
+    inter.canva.bind('<Button-1>',x=inter.clicar)
+    movex, movey = inter.clicar()
     jogo.make_move(x,y,movex,movey)
+    inter.update()
     jogo.print_tabuleiro()
+
+
     
