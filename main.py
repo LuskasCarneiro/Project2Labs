@@ -1,18 +1,12 @@
 #main
 from Attax import *
+from GoGame import *
 import values
 from interface import *
 from tkinter import *
 
-jogo=Attax(values.grid_size)
-inter=interfaceAtaxx(jogo)
-
+jogo=GoGame(values.grid_size)
 while True:
-    inter.canva.bind('<Button-1>',x=inter.clicar)
-    movex, movey = inter.clicar()
-    jogo.make_move(x,y,movex,movey)
-    inter.update()
-    jogo.print_tabuleiro()
-
-
+    x,y = map(int, input("Introduz qualquer merda porfavor ").split())
+    jogo.make_move(x,y)
     

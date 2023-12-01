@@ -1,5 +1,5 @@
 import numpy as np
-from values import *
+import values
 
 class GoGame:
     def __init__(self,tabuleiro_size):
@@ -10,7 +10,7 @@ class GoGame:
 
     def make_default_tabuleiro(self,tabuleiro_size):
         self.tabuleiro=self.make_matriz(tabuleiro_size)
-        self.print_tabuleiro()
+        self.tabuleirobefore=self.tabuleiro.copy()
 
     def remove(self,x,y):
         self.tabuleiro[x][y]=0
@@ -20,9 +20,41 @@ class GoGame:
             return 1
         else:
             return 2
+        
+    def liberties(self,x,y):
+        return 0
     
+    def make_move(self,x,y):
+        if self.isfree(x,y):
+            tabuleiro_com_move=self.tabuleiro.copy()
+            tabuleiro_com_move[x][y]=self.value()
+            if self.legalmove(tabuleiro_com_move):
+                self.tabuleirobefore=self.tabuleiro
+                self.place(x,y)
+                self.changeplayerturn()
+                self.print_tabuleiro()
+        
     def changeplayerturn (self):
         self.turn = not self.turn
+
+    def legalmove(self,tabuleiro_com_move):
+        return not np.array_equal(tabuleiro_com_move, self.tabuleirobefore)
+    
+    def iscaptured(self,x,y):
+        a=(self.tabuleiro)
+
+    def inrange(self,x,y):
+        if x<0:
+            x=0
+        elif x>values.grid_size-1:
+            x=values.grid_size-1
+        if y<0:
+            y=0
+        elif x>values.grid_size-1:
+            y=values.grid_size-1
+
+        return x,y
+        
 
     def print_tabuleiro(self):
         print(self.tabuleiro)
@@ -32,3 +64,27 @@ class GoGame:
     
     def place(self,x,y):
         self.tabuleiro[x][y]=self.value()
+
+    def isfree(self,x,y):
+        return self.tabuleiro[x][y]==0
+    
+    def isfull(self):
+        x,y=np.where(self.tabuleiro==0)
+        if len(x)>0:
+            return False
+        return True
+    
+    def isempty(self):
+        x,y=np.where(self.tabuleiro==0)
+        if len(x)!=(values.grid_size**2):
+            return False
+        return True
+    
+    def ocuppied_pos(self):
+        return np.where(self.tabuleiro!=0)
+    
+    def return_tabuleiro(self):
+        return self.tabuleiro
+
+
+GoGame(5)
