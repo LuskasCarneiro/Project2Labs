@@ -1,16 +1,22 @@
 import numpy as np
 import values
+from DataTypeSupport import *
 
 class GoGame:
     def __init__(self,tabuleiro_size):
         self.tabuleiro_size=tabuleiro_size
         self.turn=True
         self.make_default_tabuleiro(tabuleiro_size)
-        
+        #self.make_fila_jogadas_default()
 
     def make_default_tabuleiro(self,tabuleiro_size):
         self.tabuleiro=self.make_matriz(tabuleiro_size)
-        self.tabuleirobefore=self.tabuleiro.copy()
+        self.tabuleiroantes=self.tabuleiro.copy()
+
+    #def make_fila_jogadas_default(self):
+    #    self.fila_jogadas=Fila()
+    #    for i in range(1):
+    #        self.fila_jogadas.push(self.tabuleiro.copy())
 
     def remove(self,x,y):
         self.tabuleiro[x][y]=values.default
@@ -69,9 +75,11 @@ class GoGame:
         if self.isfree(x,y):
             tabuleiro_com_move=self.tabuleiro.copy()
             tabuleiro_com_move[x][y]=self.value()
-            if self.legalmove(tabuleiro_com_move):
-                self.tabuleirobefore=self.tabuleiro
+            if self.NotOldState(tabuleiro_com_move):
                 self.place(x,y)
+                print(self.tabuleiro)
+                #print("--------self.tabuleiro pos place-----------")
+                self.tabuleiroantes=self.tabuleiro.copy()
                 self.check_adjacent_captures(x,y)
                 self.capture(x,y)
                 self.changeplayerturn()
@@ -80,8 +88,14 @@ class GoGame:
     def changeplayerturn (self):
         self.turn = not self.turn
 
-    def legalmove(self,tabuleiro_com_move):
-        return not np.array_equal(tabuleiro_com_move, self.tabuleirobefore)
+    def NotOldState(self,tabuleiro_com_move):
+        print(tabuleiro_com_move)
+        #print("-------tabuleiro_com_move-------")
+        #print(self.fila_jogadas.getfirst().getvalue())
+        #print("---------primeiro_elemento_da_fila-----------")
+        print(self.tabuleiroantes)
+        #print("---------tabuleiro antes-----------")
+        return not np.array_equal(tabuleiro_com_move, self.tabuleiroantes)
 
     def inrange(self,x,y):
         if x<0:
