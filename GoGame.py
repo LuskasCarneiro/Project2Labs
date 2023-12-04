@@ -125,6 +125,3 @@ class GoGame:
     
     def return_tabuleiro(self):
         return self.tabuleiro
-
-
-GoGame(5)
