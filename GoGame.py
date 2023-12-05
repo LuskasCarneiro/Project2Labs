@@ -77,7 +77,7 @@ class GoGame:
             tabuleiro_com_move[x][y]=self.value()
             if self.NotOldState(tabuleiro_com_move):
                 self.place(x,y)
-                print(self.tabuleiro)
+                #print(self.tabuleiro)
                 #print("--------self.tabuleiro pos place-----------")
                 self.tabuleiroantes=self.tabuleiro.copy()
                 self.check_adjacent_captures(x,y)
@@ -89,11 +89,11 @@ class GoGame:
         self.turn = not self.turn
 
     def NotOldState(self,tabuleiro_com_move):
-        print(tabuleiro_com_move)
+        #print(tabuleiro_com_move)
         #print("-------tabuleiro_com_move-------")
         #print(self.fila_jogadas.getfirst().getvalue())
         #print("---------primeiro_elemento_da_fila-----------")
-        print(self.tabuleiroantes)
+        #print(self.tabuleiroantes)
         #print("---------tabuleiro antes-----------")
         return not np.array_equal(tabuleiro_com_move, self.tabuleiroantes)
 

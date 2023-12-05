@@ -15,7 +15,6 @@ class Attax:
         self.place(tabuleiro_size-1,0)
         self.place(0,tabuleiro_size-1)
         self.changeplayerturn()
-        self.print_tabuleiro()
 
     def make_matriz(self,tabuleiro_size):
         return np.zeros((tabuleiro_size,tabuleiro_size), dtype=int)
@@ -38,9 +37,14 @@ class Attax:
     def print_tabuleiro(self):
         print(self.tabuleiro)
 
-    def check_ifwinner(self):
-        if not self.isfull():
-            return self.return_winner()
+    def check_if_end(self):
+        if self.isfull():
+            return True
+        blackx,blacky=np.where(self.tabuleiro==1)
+        bluex,bluey=np.where(self.tabuleiro==2)
+        if (len(blackx)==0 or len(bluex)==0):
+            return True
+        return False
     
     def return_winner(self):
         total1=0
@@ -86,8 +90,6 @@ class Attax:
             limsupx=self.tabuleiro_size-1
         if limsupy>(self.tabuleiro_size-1):
             limsupy=self.tabuleiro_size-1
-        #problema com a formulacao da matriz acho eu
-        print(liminfx, liminfy, limsupx+1, limsupy+1)
         return liminfx, liminfy, limsupx+1, limsupy+1
 
     def change_neighbours_pieces(self,x,y):
@@ -110,6 +112,7 @@ class Attax:
             self.changeplayerturn()
             if self.isjump(x,y,movex,movey):
                 self.remove(x,y)
+            self.print_tabuleiro()
 
     def isfree(self,x,y):
         return self.tabuleiro[x][y]==0
