@@ -4,12 +4,19 @@ from GoGame import *
 import values
 from interface import *
 from tkinter import *
+from MonteCarloTree import *
 
-i=10
-jogo=GoGame(values.grid_size)
-while i>0:
+#jogo=Attax(values.grid_size)
+#interface=interfaceAtaxx(jogo)
+jogo= GoGame(values.grid_size)
+#interface=interfaceGoGame(jogo)
+while True:
+    
     x,y = map(int, input("x, y = ").split())
-    jogo.make_move(x,y)
-    i-=1
+    jogo.move(x,y)
+    root=MonteCarloTreeSearchNode(state=jogo)
+    selected_node = root.best_action()
+    jogo.move(selected_node[0],selected_node[1])
+    
 jogo.returnWinner()
     

@@ -1,6 +1,6 @@
 import numpy as np
 import values
-from DataTypeSupport import *
+#from DataTypeSupport import *
 
 class GoGame:
     def __init__(self,tabuleiro_size):
@@ -9,6 +9,7 @@ class GoGame:
         self.make_default_tabuleiro(tabuleiro_size)
         self.score_black=0
         self.score_white=7.5
+        self.isend=False
         #self.make_fila_jogadas_default()
 
     def make_default_tabuleiro(self,tabuleiro_size):
@@ -73,7 +74,7 @@ class GoGame:
         else:
             return 2
         
-    def make_move(self,x,y):
+    def move(self,x,y):
         if self.isfree(x,y):
             tabuleiro_com_move=self.tabuleiro.copy()
             tabuleiro_com_move[x][y]=self.value()
@@ -91,12 +92,6 @@ class GoGame:
         self.turn = not self.turn
 
     def NotOldState(self,tabuleiro_com_move):
-        #print(tabuleiro_com_move)
-        #print("-------tabuleiro_com_move-------")
-        #print(self.fila_jogadas.getfirst().getvalue())
-        #print("---------primeiro_elemento_da_fila-----------")
-        #print(self.tabuleiroantes)
-        #print("---------tabuleiro antes-----------")
         return not np.array_equal(tabuleiro_com_move, self.tabuleiroantes)
     
     ####-------------------------------------------- Testar se funciona------------------------------------------####
@@ -154,24 +149,6 @@ class GoGame:
       ####-----------------------------------------------------------------------------------------####
 
 
-    """def flood_fill(self, x ,y, old, new):
-        # we need the x and y of the start position, the old value,
-        # and the new value
-        # the flood fill has 4 parts
-        # firstly, make sure the x and y are inbounds
-        if x < 0 or x >= len(values.grid_size) or y < 0 or y >= len(values.grid_size):
-            return
-        # secondly, check if the current position equals the old value
-        if self.tabuleiro[y][x] != old:
-            return
-
-        # thirdly, set the current position to the new value
-        self.tabuleiro[y][x] = new
-        # fourthly, attempt to fill the neighboring positions
-        self.flood_fill(x+1, y, old, new)
-        self.flood_fill(x-1, y, old, new)
-        self.flood_fill(x, y+1, old, new)
-        self.flood_fill(x, y-1, old, new)"""
 
     def inrange(self,x,y):
         if x<0:
@@ -213,5 +190,59 @@ class GoGame:
     def ocuppied_pos(self):
         return np.where(self.tabuleiro!=values.default)
     
+    def free_pos(self):
+        return np.where(self.tabuleiro==values.default)
+    
     def return_tabuleiro(self):
         return self.tabuleiro
+    
+    ##########################################################
+
+    def get_legal_actions(self): 
+        '''
+        Modify according to your game or
+        needs. Constructs a list of all
+        possible actions from current state.
+        Returns a list.
+        '''
+        legal_actions=[]
+        x,y=self.free_pos()
+        for i in range(len(x)):
+            if self.isfree(x[i],y[i]):
+                tabuleiro_com_move=self.tabuleiro.copy()
+                tabuleiro_com_move[x[i]][y[i]]=self.value()
+                if self.NotOldState(tabuleiro_com_move):
+                    legal_actions.append([x[i],y[i]])
+        
+        return legal_actions
+
+
+
+    def is_game_over(self):
+        '''
+        Modify according to your game or 
+        needs. It is the game over condition
+        and depends on your game. Returns
+        true or false
+        '''
+        if self.isfull():
+            return True
+
+    def game_result(self):
+        '''
+        Modify according to your game or 
+        needs. Returns 1 or 0 or -1 depending
+        on your state corresponding to win,
+        tie or a loss.
+        '''
+        self.score_black=0
+        self.score_white=0
+        self.territorio()
+        if self.score_black>self.score_white:
+            return -1
+        elif self.score_black==self.score_white:
+            return 0
+        return -1
+
+
+
