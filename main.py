@@ -1,11 +1,22 @@
 #main
 from Attax import *
+from GoGame import *
+import values
+from interface import *
+from tkinter import *
+from MonteCarloTree import *
 
-jogo=Attax(5)
-
+#jogo=Attax(values.grid_size)
+#interface=interfaceAtaxx(jogo)
+jogo= GoGame(values.grid_size)
+#interface=interfaceGoGame(jogo)
 while True:
-    x, y = map(int, input("Peça inicial x,y ").split())
-    movex, movey = map(int, input("Local Final ").split())
-    jogo.make_move(x,y,movex,movey)
-    jogo.print_tabuleiro()
+    
+    x,y = map(int, input("x, y = ").split())
+    jogo.move(x,y)
+    root=MonteCarloTreeSearchNode(state=jogo)
+    selected_node = root.best_action()
+    jogo.move(selected_node[0],selected_node[1])
+    
+jogo.returnWinner()
     

@@ -15,7 +15,6 @@ class Attax:
         self.place(tabuleiro_size-1,0)
         self.place(0,tabuleiro_size-1)
         self.changeplayerturn()
-        self.print_tabuleiro()
 
     def make_matriz(self,tabuleiro_size):
         return np.zeros((tabuleiro_size,tabuleiro_size), dtype=int)
@@ -38,9 +37,14 @@ class Attax:
     def print_tabuleiro(self):
         print(self.tabuleiro)
 
-    def check_ifwinner(self):
-        if not self.isfull():
-            return self.return_winner()
+    def check_if_end(self):
+        if self.isfull():
+            return True
+        blackx,blacky=np.where(self.tabuleiro==1)
+        bluex,bluey=np.where(self.tabuleiro==2)
+        if (len(blackx)==0 or len(bluex)==0):
+            return True
+        return False
     
     def return_winner(self):
         total1=0
@@ -84,10 +88,9 @@ class Attax:
             liminfy=0
         if limsupx>(self.tabuleiro_size-1):
             limsupx=self.tabuleiro_size-1
-        if limsupy<(self.tabuleiro_size-1):
+        if limsupy>(self.tabuleiro_size-1):
             limsupy=self.tabuleiro_size-1
-
-        return liminfx, liminfy, limsupx, limsupy
+        return liminfx, liminfy, limsupx+1, limsupy+1
 
     def change_neighbours_pieces(self,x,y):
         lx,ly,sx,sy= self.neighbours(x,y)
@@ -109,6 +112,7 @@ class Attax:
             self.changeplayerturn()
             if self.isjump(x,y,movex,movey):
                 self.remove(x,y)
+            self.print_tabuleiro()
 
     def isfree(self,x,y):
         return self.tabuleiro[x][y]==0
@@ -118,6 +122,12 @@ class Attax:
         if len(x)>0:
             return False
         return True
+    
+    def ocuppied_pos(self):
+        return np.where(self.tabuleiro!=0)
+    
+    def return_tabuleiro(self):
+        return self.tabuleiro
 
 
 

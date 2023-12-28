@@ -1,0 +1,10 @@
+canva_size=600
+color1='black'
+color2='blue'
+default=0
+grid_size=7
+go_offset=45
+EAST=[1,0]
+SOUTH=[0,1]
+WEST=[-1,0]
+NORTH=[0,-1]
