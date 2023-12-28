@@ -8,7 +8,7 @@ class GoGame:
         self.turn=True
         self.make_default_tabuleiro(tabuleiro_size)
         self.score_black=0
-        self.score_white=7.5
+        self.score_white=5.5 #compensação - white é o segundo a jogar
         self.isend=False
         #self.make_fila_jogadas_default()
 
@@ -99,7 +99,6 @@ class GoGame:
         self.territorio()
         print(f"score black:{self.score_black} score blue: {self.score_white}")
 
-        
     def lib_territorios(self,coor):
         neigh=[]
         for element in [values.EAST,values.SOUTH,values.WEST,values.NORTH]:

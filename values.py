@@ -1,6 +1,6 @@
-canva_size=600
+canva_size=700
 color1='black'
-color2='blue'
+color2='#C0C0C0'
 default=0
 grid_size=7
 go_offset=45

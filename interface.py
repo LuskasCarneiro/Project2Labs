@@ -5,14 +5,13 @@ import values
 from Attax import *
 import time
 
-
-
 class interfaceAtaxx():
     def __init__(self,jogo):
         self.mk=jogo
         self.clic1=True
         self.root, self.canva = self.make_clean_canvas(values.canva_size)
         self.draw_default(self.canva)
+
         self.root.bind("<Button-1>", self.clicar)
         self.root.mainloop()
 
@@ -32,7 +31,7 @@ class interfaceAtaxx():
                 elif matriz[x][y]==2:
                     color=values.color2
                 elif matriz[x][y]==0:
-                    color='white'
+                    color='#800000'
                 self.draw(canva,color,x,y)
     
 
@@ -42,7 +41,7 @@ class interfaceAtaxx():
 
     def clicar(self, event):
         posicao_grelha = [event.x, event.y]
-        posicao_logica = [int(posicao_grelha[0]/self.division_size(self.mk.tabuleiro_size,values.canva_size)),int(posicao_grelha[1]/self.division_size(self.mk.tabuleiro_size,values.canva_size))]
+        posicao_logica = [int(posicao_grelha[0]/self.division_size(self.mk.tabuleiro_size,values.canva_size+1)),int(posicao_grelha[1]/self.division_size(self.mk.tabuleiro_size,values.canva_size))]
         if not self.mk.check_if_end(): 
             if self.clic1==True:
                 self.x=posicao_logica[0]
@@ -107,9 +106,7 @@ class interfaceGoGame():
                     self.draw(canva,color,x,y)
                 #elif matriz[x][y]==0:
                     #color='white'
-    
 
-    
     def draw(self,canva,agentcolor,x,y):
         sqr_size=self.division_size(values.grid_size,values.canva_size)
         canva.create_oval((x*sqr_size)-(sqr_size/2.5)+values.go_offset,(y*sqr_size)-(sqr_size/2.5)+values.go_offset,((x+1)*sqr_size)-(sqr_size/1.5)+values.go_offset,((y+1)*sqr_size)-(sqr_size/1.5)+values.go_offset, fill=agentcolor)        
@@ -144,4 +141,3 @@ class interfaceGoGame():
         frame=ttk.Frame(base,padding=10)
         frame.grid()
         return base,frame
-    

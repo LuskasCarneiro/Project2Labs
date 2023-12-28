@@ -97,6 +97,3 @@ class MonteCarloTreeSearchNode():
             v.backpropagate(reward)
         
         return self.best_child(c_param=0.)
-    
-   
-

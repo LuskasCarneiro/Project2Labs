@@ -27,9 +27,9 @@ class Attax:
 
     def value(self):
         if self.turn:
-            return 1
+            return 2 #branco
         else:
-            return 2
+            return 1 #preto
     
     def changeplayerturn (self):
         self.turn = not self.turn
@@ -56,11 +56,11 @@ class Attax:
                 elif self.tabuleiro[i][j]==2:
                     total2=+2
         if total1>total2:
-            return 1
+            return 1 #Peças pretas ganharam
         elif total1<total2:
-            return 2
+            return 2 #Peças brancas ganharam
         else:
-            return 3
+            return 3 #Empate
         
     def legal_move(self,x,y,movex,movey):
         if not self.isfree(movex,movey) or self.distancia(x,y,movex,movey)>2 or not self.players_piece(x,y):
@@ -128,7 +128,3 @@ class Attax:
     
     def return_tabuleiro(self):
         return self.tabuleiro
-
-
-
-
