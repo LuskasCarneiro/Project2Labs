@@ -91,6 +91,21 @@ class Attax:
         if limsupy>(self.tabuleiro_size-1):
             limsupy=self.tabuleiro_size-1
         return liminfx, liminfy, limsupx+1, limsupy+1
+    
+    def neighbours2(self,x,y):
+        liminfx=x-2
+        liminfy=y-2
+        limsupx=x+2
+        limsupy=y+2
+        if liminfx<0:
+            liminfx=0
+        if liminfy<0:
+            liminfy=0
+        if limsupx>(self.tabuleiro_size-1):
+            limsupx=self.tabuleiro_size-1
+        if limsupy>(self.tabuleiro_size-1):
+            limsupy=self.tabuleiro_size-1
+        return liminfx, liminfy, limsupx+1, limsupy+1
 
     def change_neighbours_pieces(self,x,y):
         lx,ly,sx,sy= self.neighbours(x,y)
