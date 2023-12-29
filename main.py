@@ -8,7 +8,7 @@ from MonteCarloTree import *
 
 #jogo=Attax(values.grid_size)
 #interface=interfaceAtaxx(jogo)
-jogo= GoGame(values.grid_size)
+jogo= GoGame(values.grid_size,state=None,turn=None)
 #interface=interfaceGoGame(jogo)
 while True:
     

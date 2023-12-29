@@ -35,8 +35,17 @@ class MonteCarloTreeSearchNode():
     def expand(self):
 	
         action = self._untried_actions.pop()
-        next_state_tabuleiro=self.state.return_tabuleiro()
-        next_state = self.state.move(action[0],action[1])
+        print(self.state.return_tabuleiro())
+        next_state=GoGame(tabuleiro_size=values.grid_size,state=self.state.tabuleiro,turn=self.state.turn,copy=True)
+        print("1 parte")
+        next_state.print_tabuleiro()
+        print(" ")
+        self.state.print_tabuleiro()
+        next_state.move(action[0],action[1])
+        print("2 parte")
+        next_state.print_tabuleiro()
+        print(" ")
+        self.state.print_tabuleiro()
         child_node = MonteCarloTreeSearchNode(
             next_state, parent=self, parent_action=action)
 
@@ -47,7 +56,8 @@ class MonteCarloTreeSearchNode():
         return self.state.is_game_over()
     
     def rollout(self):
-        current_rollout_state = self.state
+        #current_rollout_state = self.state
+        current_rollout_state=GoGame(tabuleiro_size=values.grid_size,state=self.state.tabuleiro,turn=self.state.turn,copy=True)
         
         while not current_rollout_state.is_game_over():
             

@@ -3,14 +3,24 @@ import values
 #from DataTypeSupport import *
 
 class GoGame:
-    def __init__(self,tabuleiro_size):
-        self.tabuleiro_size=tabuleiro_size
-        self.turn=True
-        self.make_default_tabuleiro(tabuleiro_size)
+    def __init__(self,tabuleiro_size,state=None,turn=None,copy=False):
+        if copy:
+            self.tabuleiro_size=tabuleiro_size
+            self.tabuleiro=state
+            self.tabuleiro=np.array(self.tabuleiro)
+            self.turn=turn
+            self.tabuleiroantes=self.tabuleiro.copy()
+        else:
+            self.tabuleiro_size=tabuleiro_size
+            self.turn=True
+            self.make_default_tabuleiro(tabuleiro_size)
+
         self.score_black=0
         self.score_white=7.5
         self.isend=False
         #self.make_fila_jogadas_default()
+
+
 
     def make_default_tabuleiro(self,tabuleiro_size):
         self.tabuleiro=self.make_matriz(tabuleiro_size)
@@ -227,6 +237,7 @@ class GoGame:
         '''
         if self.isfull():
             return True
+        return False
 
     def game_result(self):
         '''
