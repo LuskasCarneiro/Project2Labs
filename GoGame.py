@@ -16,7 +16,7 @@ class GoGame:
             self.make_default_tabuleiro(tabuleiro_size)
 
         self.score_black=0
-        self.score_white=7.5
+        self.score_white=5.5 #komi - compensa o branco por jogar em 2º
         self.isend=False
         #self.make_fila_jogadas_default()
 

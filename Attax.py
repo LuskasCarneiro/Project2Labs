@@ -27,9 +27,9 @@ class Attax:
 
     def value(self):
         if self.turn:
-            return 1
+            return 2 #brancas
         else:
-            return 2
+            return 1 #pretas
     
     def changeplayerturn (self):
         self.turn = not self.turn
@@ -46,7 +46,7 @@ class Attax:
             return True
         return False
     
-    def return_winner(self):
+    def returnWinner(self):
         total1=0
         total2=0
         for i in range (self.tabuleiro_size):
@@ -93,6 +93,7 @@ class Attax:
         return liminfx, liminfy, limsupx+1, limsupy+1
     
     def neighbours2(self,x,y):
+        lista = []
         liminfx=x-2
         liminfy=y-2
         limsupx=x+2
@@ -105,7 +106,13 @@ class Attax:
             limsupx=self.tabuleiro_size-1
         if limsupy>(self.tabuleiro_size-1):
             limsupy=self.tabuleiro_size-1
-        return liminfx, liminfy, limsupx+1, limsupy+1
+        
+        lista.append(liminfx)
+        lista.append(limsupx+1)
+        lista.append(liminfy)
+        lista.append(limsupy+1)
+
+        return lista
 
     def change_neighbours_pieces(self,x,y):
         lx,ly,sx,sy= self.neighbours(x,y)
@@ -143,7 +150,3 @@ class Attax:
     
     def return_tabuleiro(self):
         return self.tabuleiro
-
-
-
-
