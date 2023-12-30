@@ -15,18 +15,21 @@ class interfaceAtaxx():
         self.root, self.canva = self.make_clean_canvas(values.canva_size)
         self.draw_default(self.canva)
         #Humano contra humano
-        if(self.flag==1): 
+        if(self.flag==1):
             self.root.bind("<Button-1>", self.clicar)
 
         #Humano contra pc
-        if(self.flag==2): 
+        if(self.flag==2):
             self.root.bind("<Button-1>", self.human_agent)
 
         #pc contra pc
         if(self.flag==3):
-            self.root.bind("<Configure>", lambda event=None: self.agent_agent())
+            self.agent_agent()
 
         self.root.mainloop()
+
+    def get_last_move(self):
+        return self.movex, self.movey
 
     def update(self):
         self.draw_default(self.canva)
@@ -52,10 +55,11 @@ class interfaceAtaxx():
         sqr_size=self.division_size(values.grid_size,values.canva_size)
         canva.create_rectangle(x*sqr_size,y*sqr_size,(x+1)*sqr_size-1,(y+1)*sqr_size-1, fill=agentcolor, outline="#8B4513")    
 
+#Human x Human
     def clicar(self, event):
         posicao_grelha = [event.x, event.y]
         posicao_logica = [int(posicao_grelha[0]/self.division_size(self.mk.tabuleiro_size,values.canva_size)),int(posicao_grelha[1]/self.division_size(self.mk.tabuleiro_size,values.canva_size))]
-        if not self.mk.check_if_end(): 
+        if not self.mk.check_if_end():
             if self.clic1==True:
                 self.x=posicao_logica[0]
                 self.y=posicao_logica[1]
@@ -70,10 +74,11 @@ class interfaceAtaxx():
             print(self.mk.returnWinner())
             self.root.destroy()
 
+#Human x Agent
     def human_agent(self, event):
         posicao_grelha = [event.x, event.y]
         posicao_logica = [int(posicao_grelha[0]/self.division_size(self.mk.tabuleiro_size,values.canva_size)),int(posicao_grelha[1]/self.division_size(self.mk.tabuleiro_size,values.canva_size))]
-        if not self.mk.check_if_end(): 
+        if not self.mk.check_if_end():
             if self.clic1==True:
                 self.x=posicao_logica[0]
                 self.y=posicao_logica[1]
@@ -84,62 +89,35 @@ class interfaceAtaxx():
                 self.mk.make_move(self.x,self.y,self.movex,self.movey)
                 self.clic1=True
                 self.update()
-                self.agent_behav()
+                self.agent_random()
         else:
             print(self.mk.returnWinner())
             self.root.destroy()
 
+#Agent x Agent
     def agent_agent(self):
-        if not self.mk.check_if_end(): 
-            self.agent_behav()
+        while not self.mk.check_if_end(): 
+            self.agent_random()
+            time.sleep(0.5)
         else:
             print(self.mk.returnWinner())
             self.root.destroy()
 
-    #Pesquiso as peças da cor que quero no tabuleiro
-    def board_pieces(self):
-        if self.mk.turn==False:
-            turn = 1
-        else:
-            turn = 2
-        lista = []
-        for i in range(0,self.mk.tabuleiro_size):
-            for j in range(0,self.mk.tabuleiro_size):
-                if(self.mk.tabuleiro[i][j]==turn):
-                    lista.append((i,j))
-        return lista
-    
-    #Dado uma peça do tabuleiro da cor que eu quero, verifico se através dessa peça existem jogadas possíveis
-    def possible_moves(self,x,y):
-        lista = []
-        limits = self.mk.neighbours2(x,y)
-        print(limits)
-        for k in range(limits[0],limits[1]):
-            for s in range(limits[2],limits[3]):
-                if(self.mk.tabuleiro[k][s]==0): 
-                    lista.append((k,s))
-        return lista
-
-
-    def agent_behav(self):
-        lista = self.board_pieces()
+    #Agente escolhe uma peça random no tabuleiro (da sua cor) e faz uma jogada random através da peça escolhida
+    def agent_random(self):
+        lista = self.mk.board_pieces()
         if lista:
             (x,y) = random.choice(lista)
-            print(x)
-            print(y)
-            moves = self.possible_moves(x,y)
+            self.x = x
+            self.y = y
+            moves = self.mk.possible_moves(x,y)
             if moves:
                 (movex,movey) = random.choice(moves) #jogada random
-                print(movex)
-                print(movey)
+                self.movex = movex
+                self.movey = movey
                 self.mk.make_move(x,y,movex,movey)
                 self.update()
-
-    #def random(self,fx,fy,tx,ty):
-    #    self.mk.make_move(fx,fy,tx,ty)
-    #    self.update()
        
-    
     def division_size(self,grid,size):
         return int(size/grid)
         

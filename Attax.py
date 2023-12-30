@@ -150,3 +150,26 @@ class Attax:
     
     def return_tabuleiro(self):
         return self.tabuleiro
+    
+    #Se o agente for a cor preta, pesquiso todas as peças pretas no tabuleiro
+    def board_pieces(self):
+        if self.turn==False:
+            turn = 1
+        else:
+            turn = 2
+        lista = []
+        for i in range(0,self.tabuleiro_size):
+            for j in range(0,self.tabuleiro_size):
+                if(self.tabuleiro[i][j]==turn):
+                    lista.append((i,j))
+        return lista
+    
+    #Dado uma peça preta no tabuleiro com coordenadas (x,y) pesquiso as possiveis jogadas com essa peça
+    def possible_moves(self,x,y):
+        lista = []
+        limits = self.neighbours2(x,y)
+        for k in range(limits[0],limits[1]):
+            for s in range(limits[2],limits[3]):
+                if(self.tabuleiro[k][s]==0): 
+                    lista.append((k,s))
+        return lista
