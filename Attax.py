@@ -36,7 +36,6 @@ class Attax:
         initial_positions = self.choose_4positions()
         for (i, j) in initial_positions:
             self.place(i, j)
-            print(f"Playable piece placed at position ({i}, {j})")
             self.changeplayerturn()
         
         ## criação de non-playable pieces ##
@@ -47,10 +46,7 @@ class Attax:
             self.lista.append((i,j))
             if (i,j) not in initial_positions:
                 self.place_non_playable(i, j)
-                print(f"Non-playable piece placed at position ({i}, {j})")
                 self.actual_number_nonpieces+=1
-
-        print(self.actual_number_nonpieces)
 
     def make_matriz(self,tabuleiro_size):
         return np.zeros((tabuleiro_size,tabuleiro_size), dtype=int)
