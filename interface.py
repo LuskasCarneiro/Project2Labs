@@ -48,6 +48,8 @@ class interfaceAtaxx():
                     color=values.color2
                 elif matriz[x][y]==0:
                     color='#FFDEAD'
+                elif matriz[x][y]==3:
+                    color='red'
                 self.draw(canva,color,x,y)
     
 

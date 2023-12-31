@@ -5,6 +5,9 @@ class Attax:
     def __init__(self,tabuleiro_size):
         self.tabuleiro_size=tabuleiro_size
         self.turn=True
+        self.estado_tabuleiro = []
+        self.dic = {}
+        self.lista = []
         self.make_default_tabuleiro(tabuleiro_size)
         
     def choose_4positions(self):
@@ -15,14 +18,39 @@ class Attax:
             if (i, j) not in lista:
                 lista.append((i, j))
         return lista
+    
+    def place_non_playable(self, x, y):
+        self.tabuleiro[x][y] = 3  # Use a different value to represent non-playable pieces
+
+    def choose_1position(self):
+        while True:
+            i = random.randint(0, self.tabuleiro_size - 1)
+            j = random.randint(0, self.tabuleiro_size - 1)
+            if (i, j) not in self.lista:  # Check if the position is not in use
+                return i, j
 
     def make_default_tabuleiro(self,tabuleiro_size):
         self.tabuleiro = self.make_matriz(tabuleiro_size)
-        initial_positions = self.choose_4positions()
 
+        ## 4 configurações iniciais aleatórias ##
+        initial_positions = self.choose_4positions()
         for (i, j) in initial_positions:
             self.place(i, j)
+            print(f"Playable piece placed at position ({i}, {j})")
             self.changeplayerturn()
+        
+        ## criação de non-playable pieces ##
+        non_playable_pieces = random.randint(0,10) #Limite 10 non-playable pieces!!
+        self.actual_number_nonpieces = 0
+        for _ in range(non_playable_pieces):
+            i,j = self.choose_1position()
+            self.lista.append((i,j))
+            if (i,j) not in initial_positions:
+                self.place_non_playable(i, j)
+                print(f"Non-playable piece placed at position ({i}, {j})")
+                self.actual_number_nonpieces+=1
+
+        print(self.actual_number_nonpieces)
 
     def make_matriz(self,tabuleiro_size):
         return np.zeros((tabuleiro_size,tabuleiro_size), dtype=int)
@@ -46,7 +74,11 @@ class Attax:
         print(self.tabuleiro)
 
     def check_if_end(self):
-        if self.isfull():
+        if self.actual_number_nonpieces!=0 and self.actual_number_nonpieces%2==0:
+            return True
+        elif self.threefold_repetition_rule(self.tabuleiro):
+            return True
+        elif self.isfull():
             return True
         blackx,blacky=np.where(self.tabuleiro==1)
         bluex,bluey=np.where(self.tabuleiro==2)
@@ -127,7 +159,7 @@ class Attax:
         lx,ly,sx,sy= self.neighbours(x,y)
         for i in range(lx,sx):
             for j in range (ly,sy):
-                if self.tabuleiro[i][j]!=0:
+                if (self.tabuleiro[i][j]!=0 and self.tabuleiro[i][j]!=3):
                     self.tabuleiro[i][j]=self.value()
 
     def isjump(self,x,y,movex,movey):
@@ -151,6 +183,7 @@ class Attax:
             if self.isjump(x,y,movex,movey):
                 self.remove(x,y)
             self.print_tabuleiro()
+            self.estado_tabuleiro.append(self.tabuleiro)
         elif self.cant_play():
             self.changeplayerturn()
 
@@ -191,3 +224,18 @@ class Attax:
                 if(self.tabuleiro[k][s]==0): 
                     lista.append((k,s))
         return lista
+    
+    ## threefold_repetition_rule - um dos motivos de empate
+    def create_dictionary(self,tabuleiro):
+        for i in self.estado_tabuleiro:
+            if (i==tabuleiro):
+                if tabuleiro not in self.dic:
+                    self.dic[tabuleiro] = 1
+                else:
+                    self.dic[tabuleiro] += 1
+
+    def threefold_repetition_rule(self,tabuleiro):
+        for i in self.dic.keys():
+            if(self.dic[tabuleiro]==3):
+                return True
+        return False
