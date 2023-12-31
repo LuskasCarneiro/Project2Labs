@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 class Attax:
     def __init__(self,tabuleiro_size):
@@ -6,15 +7,22 @@ class Attax:
         self.turn=True
         self.make_default_tabuleiro(tabuleiro_size)
         
+    def choose_4positions(self):
+        lista = []
+        while len(lista) < 4:
+            i = random.randint(0, self.tabuleiro_size - 1)
+            j = random.randint(0, self.tabuleiro_size - 1)
+            if (i, j) not in lista:
+                lista.append((i, j))
+        return lista
 
     def make_default_tabuleiro(self,tabuleiro_size):
-        self.tabuleiro=self.make_matriz(tabuleiro_size)
-        self.place(0,0)
-        self.place(tabuleiro_size-1,tabuleiro_size-1)
-        self.changeplayerturn()
-        self.place(tabuleiro_size-1,0)
-        self.place(0,tabuleiro_size-1)
-        self.changeplayerturn()
+        self.tabuleiro = self.make_matriz(tabuleiro_size)
+        initial_positions = self.choose_4positions()
+
+        for (i, j) in initial_positions:
+            self.place(i, j)
+            self.changeplayerturn()
 
     def make_matriz(self,tabuleiro_size):
         return np.zeros((tabuleiro_size,tabuleiro_size), dtype=int)
@@ -54,20 +62,21 @@ class Attax:
                 if self.tabuleiro[i][j]==1:
                     total1+=1
                 elif self.tabuleiro[i][j]==2:
-                    total2=+2
+                    total2+=1
         if total1>total2:
-            return 1
+            #return 1
+            return "Black Pieces wins"
         elif total1<total2:
-            return 2
+            #return 2
+            return "White Pieces wins"
         else:
-            return 3
+            #return 3
+            return "Raw"
         
     def legal_move(self,x,y,movex,movey):
         if not self.isfree(movex,movey) or self.distancia(x,y,movex,movey)>2 or not self.players_piece(x,y):
             return False
         return True
-        
-        #nao acabada
 
     def players_piece(self,x,y):
         return self.tabuleiro[x][y]==self.value()
@@ -121,11 +130,18 @@ class Attax:
                 if self.tabuleiro[i][j]!=0:
                     self.tabuleiro[i][j]=self.value()
 
-
     def isjump(self,x,y,movex,movey):
         if self.distancia(x,y,movex,movey)==2:
             return True
         return False
+    
+    def cant_play(self):
+        list= self.board_pieces()
+        if list:
+            for (i,j) in list:
+                if self.possible_moves(i,j)!=[]:
+                    return False
+        return True
 
     def make_move(self,x,y,movex,movey):
         if self.legal_move(x,y,movex,movey):
@@ -135,6 +151,8 @@ class Attax:
             if self.isjump(x,y,movex,movey):
                 self.remove(x,y)
             self.print_tabuleiro()
+        elif self.cant_play():
+            self.changeplayerturn()
 
     def isfree(self,x,y):
         return self.tabuleiro[x][y]==0

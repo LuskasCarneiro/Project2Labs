@@ -7,11 +7,12 @@ from tkinter import *
 from MonteCarloTree import *
 
 jogo=Attax(values.grid_size)
-interface=interfaceAtaxx(jogo,3)
+interface=interfaceAtaxx(jogo,1)
+
 #jogo= GoGame(values.grid_size,state=None,turn=None)
 #interface=interfaceGoGame(jogo)
+
 #while True:
-    
     #x,y = map(int, input("x, y = ").split())
     #jogo.move(x,y)
     #root=MonteCarloTreeSearchNode(state=jogo)
