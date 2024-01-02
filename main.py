@@ -7,7 +7,7 @@ from tkinter import *
 from MonteCarloTree import *
 
 jogo=Attax(values.grid_size)
-interface=interfaceAtaxx(jogo,1)
+interface=interfaceAtaxx(jogo,3)
 
 #jogo= GoGame(values.grid_size,state=None,turn=None)
 #interface=interfaceGoGame(jogo)

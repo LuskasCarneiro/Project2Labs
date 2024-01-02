@@ -70,9 +70,9 @@ class Attax:
         print(self.tabuleiro)
 
     def check_if_end(self):
-        if self.actual_number_nonpieces!=0 and self.actual_number_nonpieces%2==0:
-            return True
-        elif self.threefold_repetition_rule(self.tabuleiro):
+        #if self.actual_number_nonpieces!=0 and self.actual_number_nonpieces%2==0:
+        #    return True
+        if self.threefold_repetition_rule(self.tabuleiro):
             return True
         elif self.isfull():
             return True

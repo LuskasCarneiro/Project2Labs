@@ -100,7 +100,8 @@ class interfaceAtaxx():
     def agent_agent(self):
         while not self.mk.check_if_end(): 
             self.agent_random()
-            time.sleep(0.5)
+            self.root.update()
+            time.sleep(0.1)  
         else:
             print(self.mk.returnWinner())
             self.root.destroy()
