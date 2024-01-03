@@ -15,3 +15,8 @@ as vezes pode dar erro se:
 > Go / comunicação && algumas regras
 >
 > alpha_zero / incompleto
+
+
+
+está a jogar random
+
