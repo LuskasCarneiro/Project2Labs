@@ -1,7 +1,9 @@
 # Project2Labs
 ## Para testar:  abrir 3 terminais independentes, correr o server primeiro, depois os dois clientes com main.py
-(! as vezes pode dar erro se:
+
+as vezes pode dar erro se:
 >o segundo cliente for inicializado imediatamento após o primeiro cliente.
+
 >o servidor esperar muito tempo pelo segundo cliente.
 ---
 #### feito:
