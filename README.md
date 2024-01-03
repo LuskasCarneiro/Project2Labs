@@ -3,7 +3,7 @@
 
 as vezes pode dar erro se:
 >o segundo cliente for inicializado imediatamento após o primeiro cliente.
-
+>
 >o servidor esperar muito tempo pelo segundo cliente.
 ---
 #### feito:
@@ -13,5 +13,5 @@ as vezes pode dar erro se:
 
 #### Por fazer:
 > Go / comunicação && algumas regras
-
+>
 > alpha_zero / incompleto
