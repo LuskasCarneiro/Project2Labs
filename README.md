@@ -1,5 +1,8 @@
 # Project2Labs
-## testar comunicação em 3 terminais independentes, correr o server primeiro, depois os dois clientes com main.py
+## Para testar:  abrir 3 terminais independentes, correr o server primeiro, depois os dois clientes com main.py
+(! as vezes pode dar erro se:
+>o segundo cliente for inicializado imediatamento após o primeiro cliente.
+>o servidor esperar muito tempo pelo segundo cliente.
 ---
 #### feito:
 > Ataxx / comunicação && agente_vs_agente / sem comunicação && agente_vs_agente/
